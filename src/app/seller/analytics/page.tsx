@@ -322,7 +322,7 @@ export default function SellerAnalyticsPage() {
                 cx="50%"
                 cy="50%"
                 outerRadius={75}
-                label={({ wartosc }) => `${wartosc}%`}
+                label={({ index }) => `${kupujacyDane[index as number]?.wartosc}%`}
                 labelLine={false}
               >
                 {kupujacyDane.map((_, i) => (
