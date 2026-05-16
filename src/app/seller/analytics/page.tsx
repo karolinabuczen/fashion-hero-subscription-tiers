@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/auth-provider";
+import { usePostHog } from "posthog-js/react";
 import {
   LineChart,
   Line,
@@ -59,6 +60,7 @@ type Widok = "landing" | "formularz" | "dziekujemy";
 export default function SellerAnalyticsPage() {
   const { user } = useAuth();
   const router = useRouter();
+  const ph = usePostHog();
 
   const [widok, setWidok] = useState<Widok>("landing");
 
@@ -101,6 +103,7 @@ export default function SellerAnalyticsPage() {
         body: JSON.stringify({ email, firma, sellerId: user!.email }),
       });
       if (!res.ok) throw new Error("Błąd serwera");
+      ph.capture("pilot_signup", { seller_id: user!.email, firma });
       setWidok("dziekujemy");
     } catch {
       setBlad("Coś poszło nie tak. Spróbuj ponownie.");
