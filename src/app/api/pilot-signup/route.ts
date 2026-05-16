@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
 
 const SHEET_ID = process.env.GOOGLE_SHEET_ID!;
-const SHEET_RANGE = "Sheet1!A:D";
+const SHEET_RANGE = "A:D";
 
 async function getSheets() {
   const auth = new google.auth.GoogleAuth({
