@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, startTransition } from "react";
 import type { Product } from "@/types";
 import { products as allProducts } from "@/data/products";
 import { ProductCard } from "./product-card";
@@ -42,7 +42,7 @@ export function RecentlyViewed({ currentProductId }: { currentProductId: string 
     const resolved = ids
       .map((id) => allProducts.find((p) => p.id === id))
       .filter((p): p is Product => !!p);
-    setRecentProducts(resolved);
+    startTransition(() => setRecentProducts(resolved));
   }, [currentProductId]);
 
   function scroll(direction: "left" | "right") {

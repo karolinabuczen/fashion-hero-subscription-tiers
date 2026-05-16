@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, startTransition } from "react";
 import Link from "next/link";
 import { CloseIcon, SearchIcon } from "./icons";
 import { products } from "@/data/products";
@@ -29,7 +29,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       inputRef.current?.focus();
       document.body.style.overflow = "hidden";
     } else {
-      setQuery("");
+      startTransition(() => setQuery(""));
       document.body.style.overflow = "";
     }
     return () => {
