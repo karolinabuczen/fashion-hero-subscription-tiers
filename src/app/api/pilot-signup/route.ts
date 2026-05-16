@@ -1,15 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { google } from "googleapis";
 
-interface PilotEntry {
-  timestamp: string;
-  seller_id: string;
-  email: string;
-  firma: string;
+const SHEET_ID = process.env.GOOGLE_SHEET_ID!;
+const SHEET_RANGE = "A:D";
+
+async function getSheets() {
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    },
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+
+  return google.sheets({ version: "v4", auth });
 }
-
-const PILOTS_FILE = path.join(process.cwd(), "pilots.json");
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,26 +32,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const entry: PilotEntry = {
-      timestamp: new Date().toISOString(),
-      seller_id: sellerId ?? "unknown",
-      email,
-      firma,
-    };
-
-    let entries: PilotEntry[] = [];
-    try {
-      const raw = await fs.readFile(PILOTS_FILE, "utf-8");
-      entries = JSON.parse(raw) as PilotEntry[];
-    } catch {
-      // plik nie istnieje lub pusty — zaczynamy od pustej tablicy
-    }
-
-    entries.push(entry);
-    await fs.writeFile(PILOTS_FILE, JSON.stringify(entries, null, 2), "utf-8");
+    const sheets = await getSheets();
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: SHEET_ID,
+      range: SHEET_RANGE,
+      valueInputOption: "RAW",
+      requestBody: {
+        values: [[new Date().toISOString(), sellerId ?? "unknown", email, firma]],
+      },
+    });
 
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (err) {
+    console.error("pilot-signup error:", err);
     return NextResponse.json(
       { error: "Błąd serwera. Spróbuj ponownie." },
       { status: 500 }
