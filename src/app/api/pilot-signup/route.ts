@@ -44,9 +44,10 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("pilot-signup error:", err);
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("pilot-signup error:", message);
     return NextResponse.json(
-      { error: "Błąd serwera. Spróbuj ponownie." },
+      { error: "Błąd serwera. Spróbuj ponownie.", debug: message },
       { status: 500 }
     );
   }
