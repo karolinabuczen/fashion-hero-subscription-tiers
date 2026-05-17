@@ -111,7 +111,7 @@ export default function SellerUpgradePage() {
           Pakiet Premium dla sprzedawców FashionHero
         </h1>
         <p className="text-white/70 max-w-xl mx-auto text-sm leading-relaxed">
-          Wyższa marża, zaawansowana analityka i dedykowany opiekun —
+          Niższa marża, zaawansowana analityka i dedykowany opiekun —
           wszystko w jednym pakiecie.
         </p>
       </section>
@@ -144,7 +144,7 @@ export default function SellerUpgradePage() {
             </li>
             <li className="flex items-start gap-3 text-sm text-[var(--color-charcoal)]">
               <TrendingUp size={16} className="mt-0.5 shrink-0 text-[var(--color-warm-gray)]" />
-              <span>Wyższa marża — 18% zamiast standardowej stawki</span>
+              <span>Niższa marża — 18% zamiast standardowej stawki</span>
             </li>
           </ul>
 
