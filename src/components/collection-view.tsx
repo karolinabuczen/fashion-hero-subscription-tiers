@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import posthog from "posthog-js";
 import { FilterSidebar, type GenderFilter, type PriceRange } from "@/components/filter-sidebar";
 import { ProductCard } from "@/components/product-card";
 import { ChevronDownIcon, CloseIcon } from "@/components/icons";
@@ -115,12 +114,12 @@ export function CollectionView({ products, collectionName, initialSellerSlug }: 
     sizes,
     availableTypes,
     sellerSlugs,
-    onGenderChange: (v: GenderFilter) => { posthog.capture("filter_changed", { filter_type: "gender", value: v }); setGender(v); },
-    onPriceRangeChange: (v: PriceRange) => { posthog.capture("filter_changed", { filter_type: "price_range", value: v }); setPriceRange(v); },
-    onShoeTypeChange: (v: ShoeType[]) => { posthog.capture("filter_changed", { filter_type: "shoe_type", value: v }); setShoeTypes(v); },
-    onMaterialChange: (v: ShoeMaterial[]) => { posthog.capture("filter_changed", { filter_type: "material", value: v }); setMaterials(v); },
-    onSizesChange: (v: number[]) => { posthog.capture("filter_changed", { filter_type: "size", value: v }); setSizes(v); },
-    onSellerChange: (v: string[]) => { posthog.capture("filter_changed", { filter_type: "seller", value: v }); setSellerSlugs(v); },
+    onGenderChange: setGender,
+    onPriceRangeChange: setPriceRange,
+    onShoeTypeChange: setShoeTypes,
+    onMaterialChange: setMaterials,
+    onSizesChange: setSizes,
+    onSellerChange: setSellerSlugs,
     onClearAll: clearAll,
     activeFilterCount,
   };

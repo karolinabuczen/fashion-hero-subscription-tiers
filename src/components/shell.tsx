@@ -7,7 +7,6 @@ import { CartProvider, useCart } from "./cart-provider";
 import { WishlistProvider, useWishlist } from "./wishlist-provider";
 import { QuickViewProvider } from "./quick-view-provider";
 import { AuthProvider } from "./auth-provider";
-import { PostHogProvider } from "./posthog-provider";
 
 function ShellInner({ children }: { children: React.ReactNode }) {
   const { openCart, itemCount } = useCart();
@@ -25,8 +24,7 @@ function ShellInner({ children }: { children: React.ReactNode }) {
 
 export function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <PostHogProvider>
-      <AuthProvider>
+          <AuthProvider>
         <CartProvider>
           <WishlistProvider>
             <QuickViewProvider>
@@ -35,6 +33,5 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </WishlistProvider>
         </CartProvider>
       </AuthProvider>
-    </PostHogProvider>
   );
 }

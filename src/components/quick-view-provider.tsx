@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback } from "react";
-import posthog from "posthog-js";
 import type { Product } from "@/types";
 import { QuickViewModal } from "./quick-view-modal";
 
@@ -22,11 +21,6 @@ export function QuickViewProvider({ children }: { children: React.ReactNode }) {
   const [product, setProduct] = useState<Product | null>(null);
 
   const openQuickView = useCallback((p: Product) => {
-    posthog.capture("open_quick_view", {
-      product_id: p.id,
-      product_name: p.name,
-      price: p.price,
-    });
     setProduct(p);
   }, []);
   const closeQuickView = useCallback(() => setProduct(null), []);

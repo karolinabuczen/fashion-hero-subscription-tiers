@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/auth-provider";
-import posthog from "posthog-js";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -21,7 +20,6 @@ export default function LoginPage() {
       return;
     }
     await login(email, password);
-    posthog.capture("user_logged_in", { email });
     router.push("/account");
   }
 

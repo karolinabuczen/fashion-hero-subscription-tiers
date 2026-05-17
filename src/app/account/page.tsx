@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/auth-provider";
 import { BarChart2 } from "lucide-react";
-import posthog from "posthog-js";
 
 const mockOrders = [
   { id: "SF-10042", date: "March 15, 2026", status: "Delivered", total: 592 },
@@ -57,74 +56,6 @@ export default function AccountPage() {
           </div>
           <Link
             href="/seller/analytics"
-            onClick={() => posthog.capture("seller_analytics_clicked", { seller_email: user.email })}
-            className="shrink-0 bg-white text-[var(--color-charcoal)] text-xs font-semibold px-4 py-2 hover:bg-[var(--color-cream)] transition-colors whitespace-nowrap"
-          >
-            Zobacz Analytics →
-          </Link>
-        </section>
-      )}
-
-      {/* Order History */}
-      <section className="mb-10">
-        <h2 className="text-[12px] font-medium uppercase tracking-[0.8px] text-charcoal mb-4 pb-2 border-b border-black/10">
-          Order History
-        </h2>
-        <div className="space-y-3">
-          {mockOrders.map((order) => (
-            <div key={order.id} className="flex items-center justify-between py-3 border-b border-black/5">
-              <div>
-                <p className="text-[13px] font-medium text-charcoal">{order.id}</p>
-                <p className="text-[12px] text-warm-gray">{order.date}</p>
-              </div>
-              <div className="text-right">
-                <p className="text-[13px] font-medium text-charcoal">{order.total.toFixed(0)} zl</p>
-                <p className="text-[11px] text-green-700 font-medium">{order.status}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Account Details */}
-      <section className="mb-10">
-        <div className="flex items-center justify-between mb-4 pb-2 border-b border-black/10">
-          <h2 className="text-[12px] font-medium uppercase tracking-[0.8px] text-charcoal">
-            Account Details
-          </h2>
-          <button className="text-[11px] text-warm-gray underline hover:text-charcoal transition-colors">
-            Edit
-          </button>
-        </div>
-        <div className="space-y-1.5 text-[13px] text-charcoal/80">
-          <p>{user.firstName} {user.lastName}</p>
-          <p>{user.email}</p>
-        </div>
-      </section>
-
-      {/* Saved Addresses */}
-      <section className="mb-10">
-        <div className="flex items-center justify-between mb-4 pb-2 border-b border-black/10">
-          <h2 className="text-[12px] font-medium uppercase tracking-[0.8px] text-charcoal">
-            Saved Addresses
-          </h2>
-          <button className="text-[11px] text-warm-gray underline hover:text-charcoal transition-colors">
-            Add Address
-          </button>
-        </div>
-        <div className="text-[13px] text-charcoal/80 space-y-0.5">
-          <p className="font-medium text-charcoal">{user.firstName} {user.lastName}</p>
-          <p>123 Sustainable Ave</p>
-          <p>San Francisco, CA 94110</p>
-          <p>United States</p>
-        </div>
-      </section>
-
-      <button
-        onClick={() => {
-          logout();
-          router.push("/");
-        }}
         className="btn-cta-outline text-[12px] w-full"
       >
         SIGN OUT

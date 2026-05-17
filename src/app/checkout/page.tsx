@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import posthog from "posthog-js";
 import { useCart } from "@/components/cart-provider";
 
 export default function CheckoutPage() {
@@ -130,28 +129,6 @@ export default function CheckoutPage() {
             {/* Place Order */}
             <button
               className="btn-cta w-full sm:w-auto sm:min-w-[280px]"
-              onClick={() => posthog.capture("checkout_initiated", { total, subtotal, shipping, item_count: items.length })}
-            >
-              PLACE ORDER
-            </button>
-          </div>
-
-          {/* Right: Order Summary */}
-          <div>
-            <div className="bg-cream-light p-6 sticky top-20">
-              <h2 className="text-[12px] font-medium uppercase tracking-[0.8px] text-charcoal mb-5 pb-2 border-b border-cream-dark">
-                ORDER SUMMARY
-              </h2>
-
-              <div className="space-y-4 mb-6">
-                {items.map((item, index) => (
-                  <div key={index} className="flex gap-3">
-                    {/* Thumbnail */}
-                    <div
-                      className="w-16 h-16 rounded flex-shrink-0"
-                      style={{
-                        background: `radial-gradient(ellipse at 50% 55%, ${item.color.hex}44 0%, ${item.color.hex}22 35%, #ece9e2 65%)`,
-                      }}
                     />
                     <div className="flex-1 min-w-0">
                       <h3 className="text-xs font-medium uppercase tracking-wide truncate">

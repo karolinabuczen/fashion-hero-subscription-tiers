@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, useEffect, startTransition } from "react";
-import posthog from "posthog-js";
 
 interface WishlistContextType {
   wishlistItems: string[];
@@ -45,12 +44,8 @@ export function WishlistProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const toggleWishlist = useCallback((productId: string) => {
-    const isRemoving = wishlistItems.includes(productId);
-    posthog.capture(isRemoving ? "remove_from_wishlist" : "add_to_wishlist", {
-      product_id: productId,
-    });
     setWishlistItems((prev) => {
-      const next = isRemoving
+      const next = prev.includes(productId)
         ? prev.filter((id) => id !== productId)
         : [...prev, productId];
       saveWishlist(next);
