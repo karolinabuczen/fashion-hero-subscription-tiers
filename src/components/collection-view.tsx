@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import posthog from "posthog-js";
 import { FilterSidebar, type GenderFilter, type PriceRange } from "@/components/filter-sidebar";
 import { ProductCard } from "@/components/product-card";
 import { ChevronDownIcon, CloseIcon } from "@/components/icons";
@@ -114,12 +115,12 @@ export function CollectionView({ products, collectionName, initialSellerSlug }: 
     sizes,
     availableTypes,
     sellerSlugs,
-    onGenderChange: setGender,
-    onPriceRangeChange: setPriceRange,
-    onShoeTypeChange: setShoeTypes,
-    onMaterialChange: setMaterials,
-    onSizesChange: setSizes,
-    onSellerChange: setSellerSlugs,
+    onGenderChange: (v) => { posthog.capture("filter_changed", { filter_type: "gender", value: v }); setGender(v); },
+    onPriceRangeChange: (v) => { posthog.capture("filter_changed", { filter_type: "price_range", value: v }); setPriceRange(v); },
+    onShoeTypeChange: (v) => { posthog.capture("filter_changed", { filter_type: "shoe_type", value: v }); setShoeTypes(v); },
+    onMaterialChange: (v) => { posthog.capture("filter_changed", { filter_type: "material", value: v }); setMaterials(v); },
+    onSizesChange: (v) => { posthog.capture("filter_changed", { filter_type: "size", value: v }); setSizes(v); },
+    onSellerChange: (v) => { posthog.capture("filter_changed", { filter_type: "seller", value: v }); setSellerSlugs(v); },
     onClearAll: clearAll,
     activeFilterCount,
   };

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import posthog from "posthog-js";
 import { useCart } from "@/components/cart-provider";
 
 export default function CheckoutPage() {
@@ -127,7 +128,10 @@ export default function CheckoutPage() {
             </section>
 
             {/* Place Order */}
-            <button className="btn-cta w-full sm:w-auto sm:min-w-[280px]">
+            <button
+              className="btn-cta w-full sm:w-auto sm:min-w-[280px]"
+              onClick={() => posthog.capture("checkout_initiated", { total, subtotal, shipping, item_count: items.length })}
+            >
               PLACE ORDER
             </button>
           </div>
