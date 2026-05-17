@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useMemo, startTransition } from "react";
 import Link from "next/link";
+import posthog from "posthog-js";
 import { CloseIcon, SearchIcon } from "./icons";
 import { products } from "@/data/products";
 
@@ -47,6 +48,15 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
     }
   }, [isOpen, onClose]);
 
+  // Debounced search event — fires 500ms after user stops typing
+  useEffect(() => {
+    if (!query.trim()) return;
+    const timer = setTimeout(() => {
+      posthog.capture("search", { query });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [query]);
+
   if (!isOpen) return null;
 
   return (
@@ -86,7 +96,14 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       <Link
                         key={product.id}
                         href={`/products/${product.slug}`}
-                        onClick={onClose}
+                        onClick={() => {
+                          posthog.capture("search_result_click", {
+                            query,
+                            product_id: product.id,
+                            product_name: product.name,
+                          });
+                          onClose();
+                        }}
                         className="flex items-center gap-4 p-2 rounded hover:bg-cream transition-colors"
                       >
                         <div

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/auth-provider";
 import { BarChart2 } from "lucide-react";
+import posthog from "posthog-js";
 
 const mockOrders = [
   { id: "SF-10042", date: "March 15, 2026", status: "Delivered", total: 592 },
@@ -56,6 +57,7 @@ export default function AccountPage() {
           </div>
           <Link
             href="/seller/analytics"
+            onClick={() => posthog.capture("seller_analytics_clicked", { seller_email: user.email })}
             className="shrink-0 bg-white text-[var(--color-charcoal)] text-xs font-semibold px-4 py-2 hover:bg-[var(--color-cream)] transition-colors whitespace-nowrap"
           >
             Zobacz Analytics →
