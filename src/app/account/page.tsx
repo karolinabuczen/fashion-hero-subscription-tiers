@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "@/components/auth-provider";
-import { BarChart2 } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 
 const mockOrders = [
   { id: "SF-10042", date: "March 15, 2026", status: "Delivered", total: 592 },
@@ -40,25 +40,25 @@ export default function AccountPage() {
         Welcome back to your FashionHero account.
       </p>
 
-      {/* Analytics CTA — widoczna tylko dla aktywnych sprzedawców */}
+      {/* Upgrade CTA — widoczna tylko dla aktywnych sprzedawców */}
       {user.isSeller && (
         <section className="mb-10 bg-[var(--color-charcoal)] text-white px-6 py-5 flex items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <BarChart2 className="mt-0.5 shrink-0" size={20} />
+            <TrendingUp className="mt-0.5 shrink-0" size={20} />
             <div>
               <p className="text-sm font-medium leading-snug">
-                Twój panel analityczny jest gotowy
+                Ulepsz swój pakiet sprzedawcy
               </p>
               <p className="text-xs text-white/70 mt-0.5">
-                Sprawdź dane sprzedaży, trendy i profil kupujących. Dołącz do pilota.
+                Marża 18% · Analityka sprzedaży · Dedykowany opiekun konta
               </p>
             </div>
           </div>
           <Link
-            href="/seller/analytics"
+            href="/seller/upgrade"
             className="shrink-0 bg-white text-[var(--color-charcoal)] text-xs font-semibold px-4 py-2 hover:bg-[var(--color-cream)] transition-colors whitespace-nowrap"
           >
-            Zobacz Analytics →
+            Ulepsz swój pakiet →
           </Link>
         </section>
       )}
